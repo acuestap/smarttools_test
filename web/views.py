@@ -18,6 +18,8 @@ def index(request):
 def login_request(request):
     if request.method == 'POST':
         response = login_request_from_model(request)
+        print("Exito")
+        print(response)
     else:
         response = {
         'username': '',
