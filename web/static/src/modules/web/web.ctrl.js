@@ -16,6 +16,8 @@
         this.logIn = function () {
             return webService.logIn($scope.user.username,$scope.user.password).then(function (response) {
                 $scope.message = response.data;
+                console.log($scope.user.username)
+                console.log($scope.user.password)
                 console.log('logged  = ' + $scope.message)
                 if($scope.message.status !== 'OK'){
                     console.log('error')
