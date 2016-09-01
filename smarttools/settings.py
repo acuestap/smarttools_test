@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'web',
     'competitions',
     'clients',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

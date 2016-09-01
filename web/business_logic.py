@@ -35,10 +35,8 @@ def login_request_from_model(request):
 
 def tareas():
 
-    workflow = chain(convert_video.s('diego'))
-    respuesta=workflow.delay()
-    print("------------")
-    print(respuesta)
+    workflow = chain(convert_video.s('Convirtiendo videos.'))
+    workflow.delay()
 
-    workflow2 = chain(send_confirmation_video.s('algo'))
+    workflow2 = chain(send_confirmation_video.s('Enviando confirmación de video.'))
     workflow2.delay()

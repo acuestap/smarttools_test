@@ -23,7 +23,6 @@ def convert_video(param):
 def send_confirmation_video(param):
     from django.core.mail import send_mail
     try:
-
         send_mail(
             'Confirmación de video',
             'Hola, tu video ha sido procesado y se encuentra publicado en el home del concurso. Gracias por participar en el concurso.',
