@@ -5,27 +5,29 @@
         <p>El aprovisionamiento de software como servicio (SaaS) es el mecanismo que permite proporcionar innovación
             constantemente. La plataforma de SMART TOOLS ofrece una manera segura, de confianza y de bajo costo de
             proporcionar soluciones de SaaS de uno y varios inquilinos.
-        <p><a class="btn btn-primary btn-lg"role="button" href="#/competitions" data-toggle="modal" data-target="#msgModal2"><span>Crear concurso »</span></a></p>
+        <p><a class="btn btn-primary btn-lg"role="button" href="#/competitions" data-toggle="modal" data-target="#msgModal"><span>Crear concurso »</span></a></p>
     </div>
 </div>
 
 <div class="container" ng-controller="competitionCtrl as ctrl" ng-init="ctrl.getCompetitions()">
-    <!-- Example row of columns -->
-    <div class="row" ng-repeat="record in competitions">
-        <div class="col-md-4">
-            <h2>[[ record.name ]]</h2>
-            <p>[[ record.image ]]</p>
-            <h5 align="center"><small> Inicio: [[ record.startingDate ]]</small></h5>
-            <h5 align="center"> <small> fin: [[ record.deadline ]]</small></h5>
-            <p><a class="btn btn-default" href="#/[[ record.url ]]" role="button">Ver concurso »</a></p>
+    <div class="row3" ng-repeat="record in competitions">
+      <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+          <img src="/static/img/profile.png" alt="...">
+          <div class="caption">
+            <h3>[[ record.name ]]</h3>
+            <p><strong>Inicio:</strong> [[ record.startingDate ]]</p>
+            <p><strong>Fin:</strong> [[ record.deadline ]]</p>
+            <p><a href="#" class="btn btn-primary" role="button">Ver</a></p>
+          </div>
         </div>
-
+      </div>
     </div>
 </div>
 <!-- /container -->
 
 <!-- Ventana Modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="msgModal2" ng-controller="clientsCtrl as ctrl2">
+<div class="modal fade" tabindex="-1" role="dialog" id="msgModal" ng-controller="competitionCtrl as ctrl2">
     <div class="container">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -43,40 +45,34 @@
                         <div class="alert alert-danger" ng-if="error">
                             Diligencia todos los campos
                         </div>
-                        <h3 class="control-label" for="client">Información Cliente</h3>
-                        <form id="formClient" name="formClient">
+                        <h3 class="control-label" for="competition">Información Concurso</h3>
+                        <form id="formCompetition" method="post" enctype="multipart/form-data" name="formCompetition">
+                             
                             <div class="form-group">
-                                <label class="control-label" for="first_name">Nombres:</label>
-                                <input type="text" id="first_name" name="first_name" class="form-control" ng-model="newClient.first_name" ng-required="true">
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label" for="last_name">Apellidos:</label>
-                                <input type="text" id="last_name" name="last_name" class="form-control" ng-model="newClient.last_name" ng-required="true">
+                                <label class="control-label" for="name">Nombre:</label>
+                                <input type="text" id="name" name="name" class="form-control" ng-model="newCompetition.name" ng-required="true">
                             </div>
                             <div class="form-group">
-                                <label class="control-label" for="username">Username:</label>
-                                <input type="text" id="username" name="username" class="form-control" ng-model="newClient.username" ng-required="true">
+                                <label class="control-label" for="url">Enlace:</label>
+                                <input type="text" id="url" name="url" class="form-control" ng-model="newCompetition.url" ng-required="true">
                             </div>
                             <div class="form-group">
-                                <label class="control-label" for="password1">Contraseña:</label>
-                                <input type="password" id="password1" name="password1" class="form-control" ng-model="newClient.password1" ng-required="true">
+                                <label class="control-label" for="image">Imagen:</label>
+                                <input type="file" id="image" name="image" class="form-control" ng-model="newCompetition.image" ng-required="false">
                             </div>
                             <div class="form-group">
-                                <label class="control-label" for="password2">Confirmar Contraseña:</label>
-                                <input type="password" id="password2" name="password2" class="form-control" ng-model="newClient.password2" ng-required="true">
+                                <label class="control-label" for="startingDate">Fecha Inicio:</label>
+                                <input type="date" id="startingDate" name="startingDate" class="form-control" ng-model="newCompetition.startingDate" ng-required="true">
                             </div>
                             <div class="form-group">
-                                <label class="control-label" for="email">E-mail:</label>
-                                <input type="email" id="email" name="email" class="form-control" ng-model="newClient.email">
+                                <label class="control-label" for="deadline">Fecha Fin:</label>
+                                <input type="date" id="deadline" name="deadline" class="form-control" ng-model="newCompetition.deadline" ng-required="true">
                             </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="acepto-terminos" required="required"> Acepto los términos y
-                                    condiciones
-                                </label>
+                            <div class="form-group">
+                                <label class="control-label" for="description">Descripción:</label>
+                                <input type="text" id="description" name="description" class="form-control" ng-model="newCompetition.description" ng-required="true">
                             </div>
-
-                            <button type="submit" ng-disabled="formClient.$invalid" class="btn btn-primary" ng-click="ctrl2.registerClient()">Guardar</button>
+                            <button type="submit" ng-disabled="formCompetition.$invalid" class="btn btn-primary" ng-click="ctrl2.registerCompetition()">Guardar</button>
                             <a href="#/competitions" class="btn btn-default">Volver</a>
                         </form>
 
