@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate, login
 import json
+from celery import chain
+from .tasks import *
 
 '''
     Perform login
@@ -30,3 +32,10 @@ def login_request_from_model(request):
         'status': status,
         'message': message,
     }
+
+def tareas():
+    workflow = chain(test.s('diego'))
+    workflow.delay()
+
+    workflow2 = chain(test2.s('algo'))
+    workflow2.delay()

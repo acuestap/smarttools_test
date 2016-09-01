@@ -4,9 +4,12 @@ from django.contrib.auth import logout
 
 from django.shortcuts import render
 
-from web.business_logic import login_request_from_model
+from web.business_logic import login_request_from_model, tareas
+
+
 # Create your views here.
 def index(request):
+    tareas()
     return render(request, 'inicio.html')
 
 '''
@@ -20,13 +23,15 @@ def login_request(request):
         response = login_request_from_model(request)
         print("Exito")
         print(response)
+
     else:
         response = {
-        'username': '',
-        'status': 'NO POST',
-        'message': 'Error de metodo.',
-    }
+            'username': '',
+            'status': 'NO POST',
+            'message': 'Error de metodo.',
+        }
     return JsonResponse(response)
+
 
 '''
     Check if user is logged
@@ -52,4 +57,8 @@ def is_logged_user(request):
 @csrf_exempt
 def logout_user(request):
     logout(request)
+    print("Cerrando sesión....")
+
     return JsonResponse({'logout': True})
+
+

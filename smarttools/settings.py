@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djcelery',
     'bootstrap3',
     'web',
     'competitions',
@@ -150,3 +151,9 @@ BOOTSTRAP3 = {
 #LOGIN_REDIRECT_URL = '/#/competitions'#reverse_lazy('competitions')
 
 #LOGOUT_REDIRECT_URL = reverse_lazy('login')
+
+#Celery
+BROKER_URL = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
