@@ -1,0 +1,104 @@
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron" ng-controller="webCtrl as ctrl2" ng-init="ctrl2.isLogged()">
+    <div class="container">
+        <h1>Smart Tools</h1>
+        <p>El aprovisionamiento de software como servicio (SaaS) es el mecanismo que permite proporcionar innovación
+            constantemente. La plataforma de SMART TOOLS ofrece una manera segura, de confianza y de bajo costo de
+            proporcionar soluciones de SaaS de uno y varios inquilinos.
+        <p ng-if="!message.logged"><a class="btn btn-primary btn-lg"role="button" href="#/" data-toggle="modal" data-target="#msgModal"><span class="glyphicon glyphicon-user"></span> <span>Crear cuenta »</span></a></p>
+    </div>
+</div>
+
+<!-- Example row of columns -->
+<div class="row">
+    <div class="col-md-4">
+        <h2>Valores agregados</h2>
+        <p>El lanzamiento del programa de socios de SaaS de SMART TOOLS mundial presenta una serie de beneficios
+            diseñados
+            para ayudarle a crear y ampliar soluciones de SaaS en SMART TOOLS. A medida que su negocio evolucione,
+            SMART TOOLS
+            estará a su lado para proporcionarle el soporte empresarial y técnico que necesita.
+        </p>
+        <p><a class="btn btn-default" href="#" role="button">Ver detalles »</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Valores agregados</h2>
+        <p>Los beneficios se estructuran en un ciclo de vida de madurez: Aprendizaje, Desarrollo y Ampliación. A
+            continuación se muestran los beneficios que ofrecemos en cada fase del ciclo de vida: aprendizaje,
+            desarrollo y ampliación.</p>
+        <p><a class="btn btn-default" href="#" role="button">Ver detalles »</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Valores agregados</h2>
+        <p>En la fase Aprendizaje, dispondrá de acceso a contenido SaaS de capacitación empresarial y técnica, como
+            artículos, documentos técnicos y arquitectura de referencia. Los webcasts del programa de socios de SaaS
+            contienen videos breves que resumen y amplían el contenido de capacitación empresarial y técnica.</p>
+        <p><a class="btn btn-default" href="#" role="button">Ver detalles »</a></p>
+    </div>
+</div>
+
+<hr>
+
+<!-- Ventana Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="msgModal" ng-controller="clientsCtrl as ctrl">
+    <div class="container">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="id_button_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Crear Cuenta</h4>
+                    <div align="center">
+                            <img align="center" width="30px" height="30px" id="mySpinner" src="static/img/spinner.gif" ng-show="loading" />
+                          </div>
+                </div>
+                <div class="modal-body">
+                    <div id="idRegisterClient">
+                        <!-- //TODO: Vista de registro consumidor -->
+                        <div class="alert alert-danger" ng-if="error">
+                            Diligencia todos los campos
+                        </div>
+                        <h3 class="control-label" for="client">Información Cliente</h3>
+                        <form id="formClient" name="formClient">
+                            <div class="form-group">
+                                <label class="control-label" for="first_name">Nombres:</label>
+                                <input type="text" id="first_name" name="first_name" class="form-control" ng-model="newClient.first_name" ng-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="last_name">Apellidos:</label>
+                                <input type="text" id="last_name" name="last_name" class="form-control" ng-model="newClient.last_name" ng-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="username">Username:</label>
+                                <input type="text" id="username" name="username" class="form-control" ng-model="newClient.username" ng-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="password1">Contraseña:</label>
+                                <input type="password" id="password1" name="password1" class="form-control" ng-model="newClient.password1" ng-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="password2">Confirmar Contraseña:</label>
+                                <input type="password" id="password2" name="password2" class="form-control" ng-model="newClient.password2" ng-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="email">E-mail:</label>
+                                <input type="email" id="email" name="email" class="form-control" ng-model="newClient.email">
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="acepto-terminos" required="required"> Acepto los términos y
+                                    condiciones
+                                </label>
+                            </div>
+
+                            <button type="submit" ng-disabled="formClient.$invalid" class="btn btn-primary" ng-click="ctrl.registerClient()">Guardar</button>
+                            <a href="#/" class="btn btn-default">Volver</a>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

@@ -1,0 +1,89 @@
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+    <div class="container">
+        <h1>Empresa Y</h1>
+        <p>El aprovisionamiento de software como servicio (SaaS) es el mecanismo que permite proporcionar innovación
+            constantemente. La plataforma de SMART TOOLS ofrece una manera segura, de confianza y de bajo costo de
+            proporcionar soluciones de SaaS de uno y varios inquilinos.
+        <p><a class="btn btn-primary btn-lg"role="button" href="#/competitions" data-toggle="modal" data-target="#msgModal2"><span>Crear concurso »</span></a></p>
+    </div>
+</div>
+
+<div class="container" ng-controller="competitionCtrl as ctrl" ng-init="ctrl.getCompetitions()">
+    <!-- Example row of columns -->
+    <div class="row" ng-repeat="record in competitions">
+        <div class="col-md-4">
+            <h2>[[ record.name ]]</h2>
+            <p>[[ record.image ]]</p>
+            <h5 align="center"><small> Inicio: [[ record.startingDate ]]</small></h5>
+            <h5 align="center"> <small> fin: [[ record.deadline ]]</small></h5>
+            <p><a class="btn btn-default" href="#/[[ record.url ]]" role="button">Ver concurso »</a></p>
+        </div>
+
+    </div>
+</div>
+<!-- /container -->
+
+<!-- Ventana Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="msgModal2" ng-controller="clientsCtrl as ctrl2">
+    <div class="container">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="id_button_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Crear Concurso</h4>
+                    <div align="center">
+                            <img align="center" width="30px" height="30px" id="mySpinner" src="static/img/spinner.gif" ng-show="loading" />
+                          </div>
+                </div>
+                <div class="modal-body">
+                    <div id="idRegisterClient">
+                        <!-- //TODO: Vista de registro consumidor -->
+                        <div class="alert alert-danger" ng-if="error">
+                            Diligencia todos los campos
+                        </div>
+                        <h3 class="control-label" for="client">Información Cliente</h3>
+                        <form id="formClient" name="formClient">
+                            <div class="form-group">
+                                <label class="control-label" for="first_name">Nombres:</label>
+                                <input type="text" id="first_name" name="first_name" class="form-control" ng-model="newClient.first_name" ng-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="last_name">Apellidos:</label>
+                                <input type="text" id="last_name" name="last_name" class="form-control" ng-model="newClient.last_name" ng-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="username">Username:</label>
+                                <input type="text" id="username" name="username" class="form-control" ng-model="newClient.username" ng-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="password1">Contraseña:</label>
+                                <input type="password" id="password1" name="password1" class="form-control" ng-model="newClient.password1" ng-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="password2">Confirmar Contraseña:</label>
+                                <input type="password" id="password2" name="password2" class="form-control" ng-model="newClient.password2" ng-required="true">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="email">E-mail:</label>
+                                <input type="email" id="email" name="email" class="form-control" ng-model="newClient.email">
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value="acepto-terminos" required="required"> Acepto los términos y
+                                    condiciones
+                                </label>
+                            </div>
+
+                            <button type="submit" ng-disabled="formClient.$invalid" class="btn btn-primary" ng-click="ctrl2.registerClient()">Guardar</button>
+                            <a href="#/competitions" class="btn btn-default">Volver</a>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
