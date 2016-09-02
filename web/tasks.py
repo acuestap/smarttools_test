@@ -5,9 +5,9 @@ from celery import task
 
 
 @task
-def convert_video(originPath):
-    pathConverted = 'upload_files\\competitions\\videos\\convertido.mp4'
-    path = 'upload_files\\competitions\\videos\\video3.avi'
+def convert_video(originPath,user_email):
+    pathConverted = 'upload_files\\competitions\\videos\\convertido'+user_email+'.mp4'
+    path = 'upload_files\\competitions\\videos\\video1.avi'
     print('Ejecutando conversión ...')
     resultado = subprocess.call('ffmpeg -i ' + originPath + '  -b 1500k -vcodec libx264 -g 30 ' + pathConverted)
 
@@ -20,13 +20,13 @@ def convert_video(originPath):
 
 
 @task
-def send_confirmation_video(user_email):
+def send_confirmation_video(user_email,name):
     from django.core.mail import send_mail
-    nombre = 'Diego'
+
     try:
         send_mail(
             'Confirmación de video',
-            'Hola, ' + nombre + ' tu video ha sido procesado y se encuentra publicado en el home del concurso. Gracias por participar en el concurso.',
+            'Hola, ' + name + ' tu video ha sido procesado y se encuentra publicado en el home del concurso. Gracias por participar en el concurso.',
             'smarttoolscloud@gmail.com',
             [user_email],
             fail_silently=False,

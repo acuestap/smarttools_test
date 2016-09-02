@@ -55,8 +55,6 @@ def is_logged_user(request):
         logged = True
     else:
         logged = False
-
-    print("ENTRO.")
     return JsonResponse({'logged': logged})
 
 
@@ -94,8 +92,7 @@ def add_video(request):
         new_video.save()
 
         # data for video convert
-
-        #validateConvert(new_video.user_email,new_video.original_video)
+        validateConvert()
 
     return JsonResponse({'ok': 'video guardado'}, status=200)
 
@@ -103,3 +100,5 @@ def add_video(request):
 class VideosListView(ListAPIView):
     serializer_class = VideoSerializer
     queryset = Video.objects.all()
+
+

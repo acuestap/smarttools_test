@@ -72,15 +72,22 @@ def video_to_json(video):
     return object
 
 
-def tareas(originPath, user_email):
-    workflow = chain(convert_video.s(originPath))
+def tareas(original_video, user_email, name):
+    workflow = chain(convert_video.s(original_video, user_email))
     workflow.delay()
 
-    workflow2 = chain(send_confirmation_video.s(user_email))
+    workflow2 = chain(send_confirmation_video.s(user_email,name))
     workflow2.delay()
 
 
-def validateConvert(user_email, original_video):
-    tareas(original_video, user_email)
-    print(user_email)
-    print(original_video)
+def validateConvert():
+    videos = Video.objects.all()
+    print("*************"
+          "*************"
+          "Llegue a buscar videos para convertir...."
+          "*************"
+          "*************"
+          )
+
+    for video in videos:
+        tareas(str(video.original_video), str(video.user_email), str(video.name))
