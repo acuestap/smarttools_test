@@ -91,7 +91,7 @@
         this.deleteCompetition = function (competition_id) {
             return competitionService.deleteCompetition(competition_id).then(function (response) {
                 if (response.data.status=="OK"){
-                    $scope.showCompetitions();
+                    $scope.showCompetitions()
                     $("#mensaje").css("color", "green");
                     $("#mensaje").text("¡Se elimino con éxito!")
                 }else{
@@ -116,12 +116,19 @@
             fd.append("image", $("#image")[0].files[0])
             return fd;
         }
+        $scope.showCompetitions= function () {
+            return competitionService.getCompetitions().then(function (response) {
+                $scope.competitions = response.data;
+            }, responseError);
+        };
+
         this.initCompetition = function(){
 
             $scope.details = {};
 
         };
     }]);
+
 })(window.angular);
 
 

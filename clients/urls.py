@@ -1,6 +1,7 @@
 from django.conf.urls import url
-from .views import register_client
+from . import views
 
 urlpatterns = [
-    url(r'^client/create', register_client, name='clientCreate'),
+    url(r'^info', views.get_info_client, name='info_client'),
+    url(r'^create', views.register_client, name='clientCreate'),
 ]

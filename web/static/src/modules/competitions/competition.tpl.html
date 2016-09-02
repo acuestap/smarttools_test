@@ -1,13 +1,13 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron">
+<div class="jumbotron" ng-controller="clientsCtrl as ctrl" ng-init="ctrl.get_info_client()">
     <div class="container">
-        <h1>Empresa Y</h1>
+        <h3>{{ nombre_cliente }}</h3>
         <p>El aprovisionamiento de software como servicio (SaaS) es el mecanismo que permite proporcionar innovación
             constantemente. La plataforma de SMART TOOLS ofrece una manera segura, de confianza y de bajo costo de
             proporcionar soluciones de SaaS de uno y varios inquilinos.
         </p>
         <p>
-            <a class="btn btn-primary btn-lg"role="button" href="#/competitions/admin">
+            <a class="btn btn-primary"role="button" href="#/competitions/admin">
                 <span>Administar »</span>
             </a>
         </p>

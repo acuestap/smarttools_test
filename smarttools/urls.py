@@ -21,11 +21,11 @@ from web.views import index
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^', include('web.urls')),
+    url(r'^client/', include('clients.urls')),
+    url(r'^competition/', include('competitions.urls')),
     #url(r'^$', login, {'template_name': 'inicio.html'}, name='login1'),
     #url(r'^accounts/login/', login, {'template_name': 'inicio.html'}, name='login'),
     #url(r'^accounts/login/', index, name='inicio2'),
     #url(r'^logout', logout_then_login, name='logout'),
-    url(r'^',include('web.urls')),
-    url(r'^',include('clients.urls')),
-    url(r'^competition/',include('competitions.urls')),
 ]

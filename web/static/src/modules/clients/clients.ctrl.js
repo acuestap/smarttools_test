@@ -5,6 +5,7 @@
         function responseError(response) {
             console.log(response);
         }
+         $scope.nombre_cliente = 'Pruebas...'
 
         $scope.newClient = {
             first_name:'',
@@ -13,6 +14,13 @@
             password1:'',
             password2:'',
             email:''
+        };
+
+        this.get_info_client = function(){
+            return clientsService.get_info_client().then(function (response) {
+                $scope.nombre_cliente = response.data.first_name +' '+ response.data.last_name;
+            }, responseError);
+
         };
 
         this.registerClient = function () {
