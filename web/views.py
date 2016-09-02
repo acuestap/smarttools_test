@@ -95,6 +95,7 @@ def add_video(request):
 
         # data for video convert
 
+        #validateConvert(new_video.user_email,new_video.original_video)
 
     return JsonResponse({'ok': 'video guardado'}, status=200)
 
