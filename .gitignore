@@ -96,5 +96,4 @@ workspace.xml
 *.pyc
 *.iml
 web/__pycache__/business_logic.cpython-35.pyc
-*.pyc
-*.pyc
+
