@@ -1,17 +1,22 @@
 import datetime
-
+from celery import chain
+from .tasks import *
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import logout
-
+from .serializers import VideoSerializer
 from django.shortcuts import render
-from rest_framework import serializers
+from rest_framework.authtoken import serializers
 
-from web.business_logic import login_request_from_model, tareas
+from web.business_logic import login_request_from_model, tareas, get_videos_from_model, validateConvert
 
 # Create your views here.
 from web.models import Competition, Video
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+
+from rest_framework import status
+from rest_framework.response import Response
 
 
 def index(request):
@@ -75,14 +80,25 @@ def logout_user(request):
 @csrf_exempt
 def add_video(request):
     if request.method == 'POST':
-        new_video = Video(name=request.POST.get('name'),
-                          state='En proceso',
-                          user_email=request.POST.get('user_email'),
-                          message=request.POST.get('message'),
-                          original_video=request.FILES['original_video'],
-                          uploadDate=datetime.datetime.now(),
-                          competition=Competition.objects.filter(id=1).get()
-                          )
+        print("Llego al servicio")
+        print(request)
+        new_video = Video(
+            name=request.POST.get('name'),
+            state='En proceso',
+            user_email=request.POST.get('user_email'),
+            message=request.POST.get('message'),
+            original_video=request.FILES['original_video'],
+            uploadDate=datetime.datetime.now(),
+            competition=Competition.objects.filter(id=1).get()
+        )
         new_video.save()
 
-    return HttpResponse(serializers.serialize("json", [new_video]))
+        # data for video convert
+
+
+    return JsonResponse({'ok': 'video guardado'}, status=200)
+
+
+class VideosListView(ListAPIView):
+    serializer_class = VideoSerializer
+    queryset = Video.objects.all()
