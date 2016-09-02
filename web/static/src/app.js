@@ -4,7 +4,8 @@
         'ngRoute',
         'competitionModule',
         'webModule',
-        'clientsModule'
+        'clientsModule',
+        'videoModule'
     ]);
     */
     var smarttoolsAPP = ng.module('smarttoolsAPP', [
@@ -38,13 +39,17 @@
 
         $routeProvider
             .when('/', {
-                templateUrl:'/static/src/modules/web/web.tpl.html',
+                templateUrl: '/static/src/modules/web/web.tpl.html',
                 controller: 'webCtrl'
             })
             .when('/competitions', {
-                templateUrl:'static/src/modules/competitions/competition.tpl.html',
+                templateUrl: 'static/src/modules/competitions/competition.tpl.html',
                 controller: 'competitionCtrl',
                 controllerAs: 'ctrl'
+            })
+            .when('/video', {
+                templateUrl: 'static/src/modules/video/video.tpl.html',
+                controller: 'videoCtrl'
             })
             .when('/competitions/admin', {
                 templateUrl:'/static/src/modules/competitions/competition_crud.tpl.html',

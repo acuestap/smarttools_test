@@ -34,11 +34,14 @@ class Video(models.Model):
     uploadDate = models.DateTimeField(null=True)
     message = models.CharField(max_length=200, null=False)
     competition = models.ForeignKey(Competition, null=False)
-    original_video = models.FileField(upload_to='videos', null=True)
-    converted_video = models.FileField(upload_to='videos', blank=True, null=True)
+    original_video = models.FileField(upload_to='upload_files/competitions/videos', null=True)
+    converted_video = models.FileField(upload_to='upload_files/competitions/videos', blank=True, null=True)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['uploadDate']
 
 
 class VideoForm(ModelForm):
