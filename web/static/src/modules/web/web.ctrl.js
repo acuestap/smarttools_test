@@ -19,15 +19,15 @@
         this.logIn = function () {
             return webService.logIn($scope.userLogin).then(function (response) {
                 $scope.message = response.data;
-                console.log($scope.user.username)
-                console.log($scope.user.password)
+                console.log($scope.userLogin.username)
+                console.log($scope.userLogin.password)
                 console.log('logged  = ' + $scope.message)
                 if($scope.message.status !== 'OK'){
                     console.log('error')
                     $scope.error = true;
                 }else {
                     $scope.error = false;
-                    $scope.user = {};
+                    $scope.userLogin = {};
                     window.location.assign('#/competitions');
                     window.location.reload(true);
                 }

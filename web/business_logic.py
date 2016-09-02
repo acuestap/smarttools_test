@@ -14,15 +14,9 @@ def login_request_from_model(request):
 
     print("Autenticando...")
     print(json_user)
-
-<<<<<<< HEAD
-    username = 'admin'  # json_user.get('username')
-    password = 'admin123'  # json_user.get('password')
-=======
     username = json_user.get('username')
     password = json_user.get('password')
     print("username..."+username+"--password:"+password)
->>>>>>> develop-a
 
     user = authenticate(username=username, password=password)
 

@@ -33,13 +33,8 @@
         // ya que eventualmente ponen problemas y no cargan la info del scope
         // tomado de: http://pythoniza.me/configuracion-de-angular-en-proyecto-django/
 
-<<<<<<< HEAD
-        $interpolateProvider.startSymbol('[[');
-        $interpolateProvider.endSymbol(']]');
-=======
          //$interpolateProvider.startSymbol('[[');
          //$interpolateProvider.endSymbol(']]');
->>>>>>> develop-a
 
 
         $routeProvider
@@ -52,11 +47,10 @@
                 controller: 'competitionCtrl',
                 controllerAs: 'ctrl'
             })
-<<<<<<< HEAD
             .when('/video', {
                 templateUrl: 'static/src/modules/video/video.tpl.html',
-                controller: 'videoCtrl',
-=======
+                controller: 'videoCtrl'
+            })
             .when('/competitions/admin', {
                 templateUrl:'/static/src/modules/competitions/competition_crud.tpl.html',
                 controller: 'competitionCtrl'
@@ -69,7 +63,6 @@
             .when('/competition/update/:competition_id', {
                 templateUrl: '/static/src/modules/competitions/editCompetition.tpl.html',
                 controller: 'competitionCtrl',
->>>>>>> develop-a
                 controllerAs: 'ctrl'
             })
             .otherwise({redirectTo: '/'});
