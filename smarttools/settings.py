@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'competitions',
     'clients',
     'rest_framework',
-    'djng'
+    'djng',
+    'videos'
 ]
 
 MIDDLEWARE = [
