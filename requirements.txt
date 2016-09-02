@@ -40,6 +40,11 @@ six==1.10.0
 smtpapi==0.3.1
 virtualenv==14.0.5
 whitenoise==2.0.6
+<<<<<<< HEAD
 redis==2.10.5
 celery==3.1.23
 django-celery==3.1.17
+=======
+django-angular==0.8.4
+gitignore==0.0.8
+>>>>>>> develop-a

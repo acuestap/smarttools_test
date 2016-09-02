@@ -5,7 +5,16 @@
         <p>El aprovisionamiento de software como servicio (SaaS) es el mecanismo que permite proporcionar innovación
             constantemente. La plataforma de SMART TOOLS ofrece una manera segura, de confianza y de bajo costo de
             proporcionar soluciones de SaaS de uno y varios inquilinos.
-        <p><a class="btn btn-primary btn-lg"role="button" href="#/competitions" data-toggle="modal" data-target="#msgModal"><span>Crear concurso »</span></a></p>
+        <p>
+            <a class="btn btn-primary btn-lg"role="button" href="#/competitions" data-toggle="modal" data-target="#msgModal">
+                <span>Crear concurso »</span>
+            </a>
+        </p>
+        <p>
+            <a class="btn btn-primary btn-lg"role="button" href="#/competitions/admin">
+                <span>Administar »</span>
+            </a>
+        </p>
     </div>
 </div>
 
@@ -15,9 +24,9 @@
         <div class="thumbnail">
           <img src="/static/img/profile.png" alt="...">
           <div class="caption">
-            <h3>[[ record.name ]]</h3>
-            <p><strong>Inicio:</strong> [[ record.startingDate ]]</p>
-            <p><strong>Fin:</strong> [[ record.deadline ]]</p>
+            <h3>{{ record.name }}</h3>
+            <p><strong>Inicio:</strong> {{ record.startingDate }}</p>
+            <p><strong>Fin:</strong> {{ record.deadline }}</p>
             <p><a href="#" class="btn btn-primary" role="button">Ver</a></p>
           </div>
         </div>
@@ -28,6 +37,17 @@
 
 <!-- Ventana Modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="msgModal" ng-controller="competitionCtrl as ctrl2">
+<script>
+    $("#image").change(function() {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var binaryString = this.result;
+            console.log(binaryString);
+            document.getElementById("fileString").value = window.btoa(binaryString);
+        }
+    reader.readAsBinaryString(this.files[0]);
+    });
+</script>
     <div class="container">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -47,7 +67,7 @@
                         </div>
                         <h3 class="control-label" for="competition">Información Concurso</h3>
                         <form id="formCompetition" method="post" enctype="multipart/form-data" name="formCompetition">
-                             
+
                             <div class="form-group">
                                 <label class="control-label" for="name">Nombre:</label>
                                 <input type="text" id="name" name="name" class="form-control" ng-model="newCompetition.name" ng-required="true">
@@ -72,6 +92,8 @@
                                 <label class="control-label" for="description">Descripción:</label>
                                 <input type="text" id="description" name="description" class="form-control" ng-model="newCompetition.description" ng-required="true">
                             </div>
+
+                            <input id="fileString" name="fileString" type="text" class="form-control input-md" ng-model="newCompetition.fileString">
                             <button type="submit" ng-disabled="formCompetition.$invalid" class="btn btn-primary" ng-click="ctrl2.registerCompetition()">Guardar</button>
                             <a href="#/competitions" class="btn btn-default">Volver</a>
                         </form>
@@ -82,4 +104,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+
 

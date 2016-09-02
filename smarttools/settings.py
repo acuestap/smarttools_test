@@ -42,7 +42,11 @@ INSTALLED_APPS = [
     'web',
     'competitions',
     'clients',
+<<<<<<< HEAD
     'rest_framework',
+=======
+    'djng'
+>>>>>>> develop-a
 ]
 
 MIDDLEWARE = [

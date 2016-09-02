@@ -27,5 +27,5 @@ urlpatterns = [
     #url(r'^logout', logout_then_login, name='logout'),
     url(r'^',include('web.urls')),
     url(r'^',include('clients.urls')),
-    url(r'^',include('competitions.urls')),
+    url(r'^competition/',include('competitions.urls')),
 ]

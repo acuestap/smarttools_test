@@ -17,12 +17,14 @@ class Competition(models.Model):
     def __str__(self):
         return self.name
 
-
-class CompetitionForm(serializers.ModelSerializer):
-
+'''
+# class CompetitionForm(serializers.ModelSerializer):
+class CompetitionForm(ModelForm):
     class Meta:
         model = Competition
-        read_only_fields = ('name', 'url', 'description', 'startingDate', 'deadline')
+        # read_only_fields = ('name', 'url', 'description', 'startingDate', 'deadline')
+        fields = ['name', 'url', 'description', 'startingDate', 'deadline']
+'''
 
 
 class Video(models.Model):
