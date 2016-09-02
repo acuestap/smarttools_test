@@ -9,3 +9,4 @@ def register_client(request):
         response = register_client_in_model(request)
 
         return JsonResponse(response)
+

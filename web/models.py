@@ -6,7 +6,7 @@ from rest_framework import serializers
 
 class Competition(models.Model):
     name = models.CharField(max_length=200, null=False)
-    image = models.ImageField(upload_to='upload_files/competitions/images', null=False)
+    image = models.ImageField(upload_to='upload_files/competitions/images', null=True)
     url = models.CharField(max_length=200, null=False)
     startingDate = models.DateTimeField(null=False)
     deadline = models.DateTimeField(null=False)

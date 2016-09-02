@@ -5,7 +5,10 @@
             <h1 class="page-header">
                 Concursos
             </h1>
-            <a href="#/competition/create"><button type="button" class="btn btn-success">Crear</button></a>
+            <a href="#/competitions"><button type="button" class="btn btn-default"
+                                                   data-toggle="modal" data-target="#msgModal">Regresar</button></a>
+            <a href="#/competitions/admin"><button type="button" class="btn btn-primary"
+                                                   data-toggle="modal" data-target="#msgModal">Crear</button></a>
         </div>
     </div>
     <div class="row" ng-controller="competitionCtrl as ctrl"  ng-init="ctrl.getCompetitions()">
@@ -15,7 +18,7 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Url</th>
+                    <th>Enlace</th>
                     <th>Inicio</th>
                     <th>Fin</th>
                     <th>Estado</th>
@@ -36,9 +39,11 @@
                     </td>
 
                     <td class="center">
-                        <a class="btn btn-info" href="#/competition/update/{{ record.id }}">
-                            <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-                        Editar
+                        <a href="#/competitions/admin"><button type="button" class="btn btn-info"
+                                                   data-toggle="modal" data-target="#msgModal"
+                                                               ng-click="ctrl.getCompetition(record.id);">
+                            <i class="glyphicon glyphicon-edit icon-white"></i>
+                            Editar</button>
                         </a>
                         <a class="btn btn-danger" ng-click="ctrl.deleteCompetition(record.id);">
                             <i class="glyphicon glyphicon-trash icon-white"></i>
@@ -52,3 +57,83 @@
 
     </div>
 </div>
+
+
+<!-- Ventana Modal para Crear y Editar Concurso -->
+<div class="modal fade" tabindex="-1" role="dialog" id="msgModal"
+     ng-controller="competitionCtrl as ctrl2">
+    <div class="container">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="id_button_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Crear Concurso</h4>
+                    <div align="center">
+                            <img align="center" width="30px" height="30px" id="mySpinner" src="static/img/spinner.gif" ng-show="loading" />
+                          </div>
+                </div>
+                <div class="modal-body">
+                    <div id="idRegisterClient">
+                        <!-- //TODO: Vista de registro concurso -->
+                        <div class="alert alert-danger" ng-if="error">
+                            Diligencia todos los campos
+                        </div>
+                        <h3 class="control-label" for="competition">Información Concurso</h3>
+                        <form id="competition_form" method="post" enctype="multipart/form-data" name="competition_form">
+                            <fieldset class="form-group">
+                                <label class="control-label" for="name">Nombre:</label>
+                                <input type="text" id="name" name="name" class="form-control" ng-model="newCompetition.name" ng-required="true">
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label class="control-label" for="url">Enlace público:</label>
+                                <input type="text" id="url" name="url" class="form-control" ng-model="newCompetition.url" ng-required="true">
+                            </fieldset>
+                            <div class="form-group">
+                                <label class="control-label" for="image">Banner:</label>
+                                <input type="file" id="image" name="image" class="form-control"
+                                       ng-model="newCompetition.image" ng-required="false">
+                            </div>
+                            <fieldset class="form-group">
+                                <label class="control-label" for="startingDate">Fecha Inicio:</label>
+                                <input type="date" id="startingDate" name="startingDate" class="form-control" ng-model="newCompetition.startingDate" ng-required="true">
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label class="control-label" for="deadline">Fecha Fin:</label>
+                                <input type="date" id="deadline" name="deadline" class="form-control" ng-model="newCompetition.deadline" ng-required="true">
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label class="control-label" for="description">Descripción:</label>
+                                <textarea id="description" name="description" class="form-control"
+                                          rows="5" cols="50" ng-model="newCompetition.description" ng-required="true"></textarea>
+                            </fieldset>
+                            <fieldset class="form-group">
+                                <label class="control-label" for="active">Estado:</label>
+                                <br />
+                                <label class="radio-inline">
+                                    <input type="radio" id="active1" name="active" value="True"
+                                         ng-model="newCompetition.active"
+                                         ng-required="true" checked> Activo
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" id="active2" name="active" value="False"
+                                         ng-model="newCompetition.active"
+                                         ng-required="true"> Inactivo
+                                </label>
+                            </fieldset>
+                            <fieldset>
+                                <button type="submit" ng-disabled="competition_form.$invalid" class="btn btn-primary btn-enviar"
+                                        ng-click="ctrl2.addCompetition()">Guardar
+                                </button>
+                                <button id="id_button_cancelar" type="button" class="btn btn-default"
+                                        data-dismiss="modal">
+                                    Cancelar
+                                </button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

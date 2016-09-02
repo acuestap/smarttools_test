@@ -1,11 +1,12 @@
 (function (ng) {
     var mod = ng.module('competitionModule');
 
-    mod.controller('competitionCtrl', ['$scope', 'competitionService', '$location', '$routeParams', function ($scope, competitionService, $location, $routeParams) {
+    mod.controller('competitionCtrl', ['$scope', 'competitionService', '$location', '$routeParams', '$http', function ($scope, competitionService, $location, $routeParams, $http) {
 
         function responseError(response) {
             console.log(response);
         }
+        $scope.nombre_cliente = 'Pruebas'
 
         $scope.newCompetition = {
             pk:'',
@@ -25,47 +26,59 @@
 
         };
 
-        this.registerCompetition = function () {
-            $scope.newCompetition.name = angular.element('#name').val();
-            $scope.newCompetition.url = angular.element('#url').val();
-            $scope.newCompetition.image = '';
-            $scope.newCompetition.startingDate = angular.element('#startingDate').val();
-            $scope.newCompetition.deadline = angular.element('#deadline').val();
-            $scope.newCompetition.description = angular.element('#description').val();
-            $scope.newCompetition.fileString = angular.element('#fileString').val();
-            return competitionService.registerCompetition($scope.newCompetition).then(function (response) {
-                console.log(response);
-                if(response.data.status=='OK'){
-                    $('#msgModal .close').attr("onclick","window.location.assign('#/competitions');window.location.reload(true)");
-
-                    $('#msgModal .modal-title').html("Registro Exitoso!")
-                    $('#msgModal .modal-body').html("Ya puedes compartir el concurso con su público objetivo.")
-
-                }else{
-                    $('#msgModal .modal-title').html("Error!")
-                    $('#msgModal .modal-body').html(response.data.status)
-                }
-                $('#mostrarModal').click();
-
-            }, responseError);
-        };
-
-        this.getCompetition = function () {
-            competitionService.getCompetition($routeParams.competition_id).then(function (response) {
+        this.getCompetition = function (competition_id) {
+            $('#msgModal .modal-title').html("Editar Concurso")
+            $('#msgModal .btn-enviar').attr('ng-click','ctrl2.updateCompetition()')
+            competitionService.getCompetition(competition_id).then(function (response) {
                 $scope.newCompetition.pk = $routeParams.competition_id;
-                $scope.newCompetition.name = response.data[0].fields.name;
-                $scope.newCompetition.url =  response.data[0].fields.url;
-                $scope.newCompetition.startingDate =  response.data[0].fields.startingDate;
-                $scope.newCompetition.deadline =  response.data[0].fields.deadline;
-                $scope.newCompetition.description =  response.data[0].fields.description;
-                $scope.newCompetition.active =  response.data[0].fields.active;
-            }, responseError); alert(response.data[0].fields.startingDate)
+                $('#msgModal #name').val(response.data[0].fields.name);
+                $('#msgModal #url').val(response.data[0].fields.url);
+                //$('#msgModal #image').val(response.data[0].fields.image);
+                //$('#msgModal #startingDate').val(response.data[0].fields.startingDate);
+                //$('#msgModal #deadline').val(response.data[0].fields.deadline);
+                $('#msgModal #description').val(response.data[0].fields.description);
+                if(response.data[0].fields.active == true){
+                    $('#msgModal #active').val("True");
+                }else{
+                    $('#msgModal #active').val("False");
+
+                }
+            }, responseError);
         };
 
-        this.saveCompetition = function () {
-            return competitionService.saveCompetition($scope.newCompetition).then(function (response) {
-                $location.path("/competitions/admin");
-            }, responseError);
+
+        this.addCompetition = function () {
+            var fd = getCompetitionUpload();
+            enlace = "/competition/",
+                $http.post(enlace, fd, {
+                    method:'POST',
+                    headers: {'Content-Type': undefined},
+                    transformRequest: angular.identity
+                }).success(function (data, status) {
+                     if(data.message=='OK') {
+                         $('#msgModal .close').attr("onclick", "window.location.assign('#/competitions/admin');window.location.reload(true)");
+
+                         $('#msgModal .modal-title').html("Registro Exitoso!")
+                         $('#msgModal .modal-body').html("Ya puedes compartir el concurso con su público objetivo.")
+
+                         console.log(data.message)
+                         console.log(status)
+                     }
+                     else{
+                         $('#msgModal .modal-title').html("Error!")
+                         $('#msgModal .modal-body').html(data.message)
+                     }
+                     $('#mostrarModal').click();
+
+                }).error(function (data, status) {
+
+                    $('#msgModal .modal-title').html("Error!")
+                    $('#msgModal .modal-body').html(data)
+
+                    console.log(data.message)
+                    console.log(status)
+
+                });
         };
 
         this.updateCompetition = function () {
@@ -91,38 +104,23 @@
         };
 
 
-        //N la uso aun por que no me muestra los datos aun...
-        $scope.showCompetitions= function () {
-            return competitionService.getCompetitions().then(function (response) {
-                $scope.competitions = response.data;
-            }, responseError);
+        function getCompetitionUpload() {
+            var fd = new FormData();
+            datas = $("#competition_form").serializeArray();
+            // send other data in the form
+            for (var i = 0; i < datas.length; i++) {
+                fd.append(datas[i].name, datas[i].value);
+            }
+            ;
+            // append file to FormData
+            fd.append("image", $("#image")[0].files[0])
+            return fd;
+        }
+        this.initCompetition = function(){
+
+            $scope.details = {};
+
         };
-
-/*
-        // CRUD FOR MODEL COMPETITION
-        // Query returns an array of objects, MyModel.objects.all() by default
-        $scope.models = competitionService.query();
-
-        // Getting a single object
-        var model = competitionService.get({pk: 2});
-
-
-        // We can crete new objects
-        var new_model = new competitionService({name: 'New name'});
-        new_model.$save(function(){
-           $scope.models.push(new_model);
-        });
-        // In callback we push our new object to the models array
-
-        // Updating objects
-        new_model.name = 'Test name';
-        new_model.$save();
-
-        // Deleting objects
-        new_model.$remove();
-        // This deletes the object on server, but it still exists in the models array
-        // To delete it in frontend we have to remove it from the models array
-*/
     }]);
 })(window.angular);
 

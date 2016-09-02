@@ -55,16 +55,13 @@
                 templateUrl:'/static/src/modules/competitions/competition_crud.tpl.html',
                 controller: 'competitionCtrl'
             })
-            .when('/competition/create', {
-                templateUrl: '/static/src/modules/competitions/createCompetition.tpl.html',
-                controller: 'competitionCtrl',
-                controllerAs: 'ctrl'
-            })
+            /*
             .when('/competition/update/:competition_id', {
                 templateUrl: '/static/src/modules/competitions/editCompetition.tpl.html',
                 controller: 'competitionCtrl',
                 controllerAs: 'ctrl'
             })
+            */
             .otherwise({redirectTo: '/'});
 
     }]);
