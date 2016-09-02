@@ -30,7 +30,8 @@ def competition_to_json(competition):
         'image': image_path,
         'url': competition.url,
         'startingDate': competition.startingDate,
-        'deadline': competition.deadline
+        'deadline': competition.deadline,
+        'active': competition.active
     }
     return object
 
@@ -39,11 +40,14 @@ def competition_to_json(competition):
 '''
 
 
-def get_competitions_from_model():
+def get_competitions_from_model(request):
 
     competitions = []
+    if request.user.is_authenticated():
+        idUser = request.user.id
+        user = User.objects.get(id=idUser)
 
-    for c in Competition.objects.all():
+    for c in Competition.objects.filter(user=user).all():
         competitions.append(competition_to_json(c))
 
     return competitions

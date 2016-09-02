@@ -3,13 +3,13 @@
 
     mod.service('webService', ['$http', 'webContext', function ($http, context) {
 
-        this.logIn = function (username,password) {
+        this.logIn = function (userLogin) {
             return $http({
                 method: 'POST',
                 url: 'login/',
                 data: {
-                    username: username,
-                    password: password
+                    username: userLogin.username,
+                    password: userLogin.password
                 }
             });
         };

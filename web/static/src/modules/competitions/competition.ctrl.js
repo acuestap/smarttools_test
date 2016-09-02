@@ -1,22 +1,22 @@
 (function (ng) {
     var mod = ng.module('competitionModule');
 
-    mod.controller('competitionCtrl', ['$scope', 'competitionService', function ($scope, competitionService) {
+    mod.controller('competitionCtrl', ['$scope', 'competitionService', '$location', '$routeParams', function ($scope, competitionService, $location, $routeParams) {
 
         function responseError(response) {
             console.log(response);
         }
 
         $scope.newCompetition = {
+            pk:'',
             name:'',
             url:'',
             image:'',
             startingDate:'',
             deadline:'',
             description:'',
-            fileString:''
+            active:''
         };
-
 
         this.getCompetitions = function(){
             return competitionService.getCompetitions().then(function (response) {
@@ -32,7 +32,7 @@
             $scope.newCompetition.startingDate = angular.element('#startingDate').val();
             $scope.newCompetition.deadline = angular.element('#deadline').val();
             $scope.newCompetition.description = angular.element('#description').val();
-           $scope.newCompetition.fileString = angular.element('#fileString').val();
+            $scope.newCompetition.fileString = angular.element('#fileString').val();
             return competitionService.registerCompetition($scope.newCompetition).then(function (response) {
                 console.log(response);
                 if(response.data.status=='OK'){
@@ -49,6 +49,55 @@
 
             }, responseError);
         };
+
+        this.getCompetition = function () {
+            competitionService.getCompetition($routeParams.competition_id).then(function (response) {
+                $scope.newCompetition.pk = $routeParams.competition_id;
+                $scope.newCompetition.name = response.data[0].fields.name;
+                $scope.newCompetition.url =  response.data[0].fields.url;
+                $scope.newCompetition.startingDate =  response.data[0].fields.startingDate;
+                $scope.newCompetition.deadline =  response.data[0].fields.deadline;
+                $scope.newCompetition.description =  response.data[0].fields.description;
+                $scope.newCompetition.active =  response.data[0].fields.active;
+            }, responseError); alert(response.data[0].fields.startingDate)
+        };
+
+        this.saveCompetition = function () {
+            return competitionService.saveCompetition($scope.newCompetition).then(function (response) {
+                $location.path("/competitions/admin");
+            }, responseError);
+        };
+
+        this.updateCompetition = function () {
+            return competitionService.updateCompetition($scope.newCompetition, $routeParams.competition_id).then(function (response) {
+                $location.path("/competitions/admin");
+            }, responseError);
+        };
+
+
+        this.deleteCompetition = function (competition_id) {
+            return competitionService.deleteCompetition(competition_id).then(function (response) {
+                if (response.data.status=="OK"){
+                    $scope.showCompetitions();
+                    $("#mensaje").css("color", "green");
+                    $("#mensaje").text("¡Se elimino con éxito!")
+                }else{
+                    $("#mensaje").css("color", "red");
+                    $("#mensaje").text("Error al eliminar")
+
+                }
+
+            }, responseError);
+        };
+
+
+        //N la uso aun por que no me muestra los datos aun...
+        $scope.showCompetitions= function () {
+            return competitionService.getCompetitions().then(function (response) {
+                $scope.competitions = response.data;
+            }, responseError);
+        };
+
 /*
         // CRUD FOR MODEL COMPETITION
         // Query returns an array of objects, MyModel.objects.all() by default

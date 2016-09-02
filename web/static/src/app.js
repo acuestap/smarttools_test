@@ -32,8 +32,8 @@
         // ya que eventualmente ponen problemas y no cargan la info del scope
         // tomado de: http://pythoniza.me/configuracion-de-angular-en-proyecto-django/
 
-         $interpolateProvider.startSymbol('[[');
-         $interpolateProvider.endSymbol(']]');
+         //$interpolateProvider.startSymbol('[[');
+         //$interpolateProvider.endSymbol(']]');
 
 
         $routeProvider
@@ -43,6 +43,20 @@
             })
             .when('/competitions', {
                 templateUrl:'static/src/modules/competitions/competition.tpl.html',
+                controller: 'competitionCtrl',
+                controllerAs: 'ctrl'
+            })
+            .when('/competitions/admin', {
+                templateUrl:'/static/src/modules/competitions/competition_crud.tpl.html',
+                controller: 'competitionCtrl'
+            })
+            .when('/competition/create', {
+                templateUrl: '/static/src/modules/competitions/createCompetition.tpl.html',
+                controller: 'competitionCtrl',
+                controllerAs: 'ctrl'
+            })
+            .when('/competition/update/:competition_id', {
+                templateUrl: '/static/src/modules/competitions/editCompetition.tpl.html',
                 controller: 'competitionCtrl',
                 controllerAs: 'ctrl'
             })

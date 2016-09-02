@@ -5,7 +5,10 @@
 
         $scope.message = 'Hola, Mundo!';
 
-        $scope.user = {};
+        $scope.userLogin = {
+            username:'',
+            password:''
+        };
 
         $scope.error = false;
 
@@ -14,7 +17,7 @@
         }
 
         this.logIn = function () {
-            return webService.logIn($scope.user.username,$scope.user.password).then(function (response) {
+            return webService.logIn($scope.userLogin).then(function (response) {
                 $scope.message = response.data;
                 console.log('logged  = ' + $scope.message)
                 if($scope.message.status !== 'OK'){
