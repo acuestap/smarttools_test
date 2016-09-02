@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'web',
     'competitions',
     'clients',
+    'djng'
 ]
 
 MIDDLEWARE = [

@@ -1,6 +1,6 @@
 (function (ng) {
     var mod = ng.module('competitionModule');
-
+    //var mod = ng.module('competitionModule', ['ngResource']);
     mod.service('competitionService', ['$http', 'competitionContext', function ($http, context) {
 
         this.getCompetitions = function () {
@@ -20,4 +20,12 @@
 
 
     }]);
+/*
+    mod.factory('competitionService', ['$resource', function($resource) {
+        return $resource('/crud/competition/', {'pk': '@pk'}, {
+        });
+    }]);
+*/
+
+
 })(window.angular);

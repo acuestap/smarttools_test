@@ -2,7 +2,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from competitions.business_logic import get_competitions_from_model, create_competition_in_model
+from djng.views.crud import NgCRUDView
 
+from web.models import Competition
 
 @csrf_exempt
 def get_all_competitions(request):
@@ -19,3 +21,6 @@ def create_competition(request):
         return JsonResponse(response)
 
 
+# Vista para gestionar el CRUD del modelo Competition
+class CompetitionCrudView(NgCRUDView):
+    model = Competition
