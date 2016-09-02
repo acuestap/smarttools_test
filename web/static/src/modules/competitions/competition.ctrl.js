@@ -16,7 +16,6 @@
             description:''
         };
 
-
         this.getCompetitions = function(){
             return competitionService.getCompetitions().then(function (response) {
                 $scope.competitions = response.data;
