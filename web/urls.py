@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 
-from web.views import index, login_request, logout_user, is_logged_user,add_video, VideosListView
+from web.views import index, login_request, logout_user, is_logged_user
 
 urlpatterns = [
     url(r'^$', index, name='inicio'),
@@ -11,8 +11,8 @@ urlpatterns = [
     url(r'^islogged/', is_logged_user, name='isLoggedUser'),
 
     # Prueba del video
-    url(r'^videos', VideosListView.as_view(), name='videos'),
-    url(r'^video/add', add_video, name='addvideo'),
-    url(r'^api/videos/', VideosListView.as_view(), name='videos'),
+    #url(r'^videos', VideosListView.as_view(), name='videos'),
+    #url(r'^video/add', add_video, name='addvideo'),
+    #url(r'^api/videos/', VideosListView.as_view(), name='videos'),
 
 ]

@@ -11,7 +11,7 @@ def competition_to_json(competition):
     image_path = '/static/img/profile.png'
     if isinstance(competition.image, ImageFieldFile):
         try:
-            image_path = competition.image.path
+            image_path = competition.image.url
         except ValueError as e:
             image_path = '/static/img/profile.png'
 

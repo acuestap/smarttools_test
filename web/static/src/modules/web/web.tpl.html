@@ -5,7 +5,16 @@
         <p>El aprovisionamiento de software como servicio (SaaS) es el mecanismo que permite proporcionar innovación
             constantemente. La plataforma de SMART TOOLS ofrece una manera segura, de confianza y de bajo costo de
             proporcionar soluciones de SaaS de uno y varios inquilinos.
-        <p ng-if="!message.logged"><a class="btn btn-primary"role="button" href="#/" data-toggle="modal" data-target="#msgModal"><span class="glyphicon glyphicon-user"></span> <span>Crear cuenta »</span></a></p>
+        <p ng-if="!message.logged">
+            <a class="btn btn-primary"role="button" href="#/" data-toggle="modal" data-target="#msgModal">
+                <span class="glyphicon glyphicon-user"></span> <span>Crear cuenta »</span>
+            </a>
+        </p>
+        <p ng-if="message.logged">
+            <a class="btn btn-primary"role="button" href="#/competitions/">
+                <span></span> <span>Concursos »</span>
+            </a>
+        </p>
     </div>
 </div>
 
@@ -19,21 +28,21 @@
             SMART TOOLS
             estará a su lado para proporcionarle el soporte empresarial y técnico que necesita.
         </p>
-        <p><a class="btn btn-default" href="#" role="button">Ver detalles »</a></p>
+        <p class="hidden"><a class="btn btn-default" href="#" role="button">Ver detalles »</a></p>
     </div>
     <div class="col-md-4">
         <h2>Valores agregados</h2>
         <p>Los beneficios se estructuran en un ciclo de vida de madurez: Aprendizaje, Desarrollo y Ampliación. A
             continuación se muestran los beneficios que ofrecemos en cada fase del ciclo de vida: aprendizaje,
             desarrollo y ampliación.</p>
-        <p><a class="btn btn-default" href="#" role="button">Ver detalles »</a></p>
+        <p class="hidden"><a class="btn btn-default" href="#" role="button">Ver detalles »</a></p>
     </div>
     <div class="col-md-4">
         <h2>Valores agregados</h2>
         <p>En la fase Aprendizaje, dispondrá de acceso a contenido SaaS de capacitación empresarial y técnica, como
             artículos, documentos técnicos y arquitectura de referencia. Los webcasts del programa de socios de SaaS
             contienen videos breves que resumen y amplían el contenido de capacitación empresarial y técnica.</p>
-        <p><a class="btn btn-default" href="#" role="button">Ver detalles »</a></p>
+        <p class="hidden"><a class="btn btn-default" href="#" role="button">Ver detalles »</a></p>
     </div>
 </div>
 

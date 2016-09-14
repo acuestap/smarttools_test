@@ -2,6 +2,7 @@
     var mod = ng.module('competitionModule');
     mod.service('competitionService', ['$http', 'competitionContext', function ($http, context) {
 
+
         this.getCompetitions = function () {
             return $http({
                 method: 'GET',
@@ -16,20 +17,11 @@
             });
         }
 
-
-        this.updateCompetition = function (newCompetition, competition_id) {
-            return $http({
-                method: 'PUT',
-                url: '/competition/',
-                data: {
-                    pk: competition_id,
-                    name: newCompetition.name,
-                    url: newCompetition.url,
-                    startingDate: newCompetition.startingDate,
-                    deadline: newCompetition.deadline,
-                    description: newCompetition.description,
-                    active: newCompetition.active
-                }
+        this.updateCompetition = function (newCompetition, competition_id, fd) {
+            return $http.post('/competition/edit/', fd, {
+                method: 'POST',
+                headers: {'Content-Type': undefined},
+                transformRequest: angular.identity
             });
         }
 

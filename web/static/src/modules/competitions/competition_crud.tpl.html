@@ -5,8 +5,7 @@
             <h1 class="page-header">
                 Concursos
             </h1>
-            <a href="#/competitions"><button type="button" class="btn btn-default"
-                                                   data-toggle="modal" data-target="#msgModal">Regresar</button></a>
+            <a href="#/competitions"><button type="button" class="btn btn-default">Regresar</button></a>
             <a href="#/competitions/admin"><button type="button" class="btn btn-primary"
                                                    data-toggle="modal" data-target="#msgModal">Crear</button></a>
         </div>
@@ -28,7 +27,7 @@
             <tbody ng-repeat="record in competitions">
                 <tr>
                     <td>{{ record.name }}</td>
-                    <td class="center">{{ record.url }}</td>
+                    <td class="center">http://{{ info_host_actual }}/{{ record.url }}/{{ record.id }}</td>
                     <td class="center">{{ record.startingDate }}</td>
                     <td>{{  record.deadline }}</td>
                     <td ng-if="record.active == '1'" class="center">
@@ -81,49 +80,55 @@
                         </div>
                         <h3 class="control-label" for="competition">Información Concurso</h3>
                         <form id="competition_form" method="post" enctype="multipart/form-data" name="competition_form">
+                            <input type="hidden" class="hdEstadoForm" id="hdEstadoForm" name="hdEstadoForm">
+                            <input type="hidden" class="hdCompetitionId" id="hdCompetitionId" name="hdCompetitionId" ng-model="newCompetition.pk">
                             <fieldset class="form-group">
                                 <label class="control-label" for="name">Nombre:</label>
-                                <input type="text" id="name" name="name" class="form-control" ng-model="newCompetition.name" ng-required="true">
+                                <input type="text" id="name" name="name" class="form-control" ng-model="newCompetition.name"
+                                       placeholder="Nombre del concurso. Máximo 50 caracteres." maxlength="50" ng-required="true">
                             </fieldset>
                             <fieldset class="form-group">
                                 <label class="control-label" for="url">Enlace público:</label>
-                                <input type="text" id="url" name="url" class="form-control" ng-model="newCompetition.url" ng-required="true">
+                                <input type="text" id="url" name="url" class="form-control" ng-model="newCompetition.url"
+                                       placeholder="Solo letras y números, sin espacion ni caracteres especiales. Máximo 20 caracteres."
+                                       ng-pattern="/^[a-zA-Z0-9]*$/" maxlength="20" ng-required="true">
                             </fieldset>
                             <div class="form-group">
                                 <label class="control-label" for="image">Banner:</label>
-                                <input type="file" id="image" name="image" class="form-control"
-                                       ng-model="newCompetition.image" ng-required="false">
+                                <input type="file" id="image" name="image" class="form-control" ng-model="newCompetition.image"
+                                       placeholder="Banner o imagen del concurso" ng-required="false">
                             </div>
                             <fieldset class="form-group">
                                 <label class="control-label" for="startingDate">Fecha Inicio:</label>
-                                <input type="date" id="startingDate" name="startingDate" class="form-control" ng-model="newCompetition.startingDate" ng-required="true">
+                                <input type="date" id="startingDate" name="startingDate" class="form-control" ng-model="newCompetition.startingDate"
+                                       ng-required="true">
                             </fieldset>
                             <fieldset class="form-group">
                                 <label class="control-label" for="deadline">Fecha Fin:</label>
-                                <input type="date" id="deadline" name="deadline" class="form-control" ng-model="newCompetition.deadline" ng-required="true">
+                                <input type="date" id="deadline" name="deadline" class="form-control" ng-model="newCompetition.deadline"
+                                       ng-required="true">
                             </fieldset>
                             <fieldset class="form-group">
                                 <label class="control-label" for="description">Descripción:</label>
-                                <textarea id="description" name="description" class="form-control"
-                                          rows="5" cols="50" ng-model="newCompetition.description" ng-required="true"></textarea>
+                                <textarea id="description" name="description" class="form-control" ng-model="newCompetition.description"
+                                          placeholder="Descripción del premio que ganará el mejor video. Máximo 500 caracteres"
+                                          maxlength="500." ng-required="true"></textarea>
                             </fieldset>
                             <fieldset class="form-group">
                                 <label class="control-label" for="active">Estado:</label>
                                 <br />
                                 <label class="radio-inline">
                                     <input type="radio" id="active1" name="active" value="True"
-                                         ng-model="newCompetition.active"
-                                         ng-required="true" checked> Activo
+                                         ng-model="newCompetition.active" ng-required="true" checked="checked"> Activo
                                 </label>
                                 <label class="radio-inline">
                                     <input type="radio" id="active2" name="active" value="False"
-                                         ng-model="newCompetition.active"
-                                         ng-required="true"> Inactivo
+                                         ng-model="newCompetition.active" ng-required="true"> Inactivo
                                 </label>
                             </fieldset>
                             <fieldset>
                                 <button type="submit" ng-disabled="competition_form.$invalid" class="btn btn-primary btn-enviar"
-                                        ng-click="ctrl2.addCompetition()">Guardar
+                                        ng-click="ctrl2.add_edit_competition()">Guardar
                                 </button>
                                 <button id="id_button_cancelar" type="button" class="btn btn-default"
                                         data-dismiss="modal">

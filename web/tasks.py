@@ -1,26 +1,48 @@
 from __future__ import absolute_import
+
+import datetime
+import random
 import subprocess
-
 from celery import task
+from celery.decorators import periodic_task
+from web.business_logic import all_video_to_convert, update_to_state_video
 
 
-@task
-def convert_video(originPath,user_email):
-    pathConverted = 'upload_files\\competitions\\videos\\convertido'+user_email+'.mp4'
-    path = 'upload_files\\competitions\\videos\\video1.avi'
-    print('Ejecutando conversión ...')
-    resultado = subprocess.call('ffmpeg -i ' + originPath + '  -b 1500k -vcodec libx264 -g 30 ' + pathConverted)
+@periodic_task(run_every=datetime.timedelta(seconds=60), name="convert_video", ignore_result=True)
+def convert_video():
 
-    if resultado != 0:
-        print('Algo falló en la conversión del video %s', resultado)
+    videos = []
+
+    videos = all_video_to_convert()
+
+    if not videos:
+        print("No se puede convertir, No hay videos aún.... Esperando....")
     else:
-        print('Video convertido ok')
 
-    return 'La tarea de conversion de video esta ok. %s ' % resultado
+        num = random.randrange(1000000000)
+
+        for video in videos:
+
+            path_converted = 'static\\upload_files\\competitions\\videos\\video_' + str(num) + '_' + str(video.id) + '.mp4'
+
+            print('Ejecutando conversión de video ')
+
+            resulted = subprocess.call(
+                'ffmpeg -i ' + str(video.original_video) + '  -b 1500k -vcodec libx264 -g 30 ' + str(path_converted))
+
+            if resulted != 0:
+                print('Algo falló en la conversión del video %s', resulted)
+            else:
+                print('Video convertido ok')
+                print(video.id)
+                video.converted_video = path_converted
+                update_to_state_video(video)
+                send_confirmation_video(str(video.user_email), str(video.name))
+            return 'Conversion de video Ok %s ' % resulted
+        videos = []
 
 
-@task
-def send_confirmation_video(user_email,name):
+def send_confirmation_video(user_email, name):
     from django.core.mail import send_mail
 
     try:
@@ -35,4 +57,4 @@ def send_confirmation_video(user_email,name):
         print
         "Error enviando el mail"
 
-    return 'Ok tarea 2 y el parametro es:  "%s" ' % param
+    return 'Correo enviado correctamente como tarea'

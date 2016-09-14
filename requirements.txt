@@ -5,7 +5,7 @@ boto==2.42.0
 boto3==1.3.0
 botocore==1.4.5
 dj-database-url==0.4.0
-Django==1.9.2
+Django==1.10
 django-bmemcached==0.2.3
 django-cors-headers==1.1.0
 django-filter==0.13.0

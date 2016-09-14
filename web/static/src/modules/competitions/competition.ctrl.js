@@ -6,7 +6,7 @@
         function responseError(response) {
             console.log(response);
         }
-        $scope.nombre_cliente = 'Pruebas'
+        $scope.info_host_actual = location.host;
 
         $scope.newCompetition = {
             pk:'',
@@ -19,6 +19,7 @@
             active:''
         };
 
+
         this.getCompetitions = function(){
             return competitionService.getCompetitions().then(function (response) {
                 $scope.competitions = response.data;
@@ -26,11 +27,38 @@
 
         };
 
+        /*
+        * Consultar la info de un concurso para crear variables de contexto que pueden ser utiles en una plantilla
+        * Que esta fuera del contexto de competitionCtrl.
+         */
+
+        this.getCompetitionById = function(){
+            id_competition = $routeParams.competition_id
+            return competitionService.getCompetition(id_competition).then(function (response) {
+                $scope.id_competition= id_competition;
+                $scope.name_competition = response.data[0].fields.name;
+                $scope.url_competition = response.data[0].fields.url;
+                $scope.description_competition = response.data[0].fields.description;
+                $scope.banner_competition = response.data[0].fields.image;
+                $scope.description_competition = response.data[0].fields.description;
+                $scope.competitions = response.data;
+            }, responseError);
+
+        };
+
+
+        //Consultar toda la info de un concurso para el modal de editar concurso.
         this.getCompetition = function (competition_id) {
             $('#msgModal .modal-title').html("Editar Concurso")
-            $('#msgModal .btn-enviar').attr('ng-click','ctrl2.updateCompetition()')
+            $('#msgModal .hdEstadoForm').val("editando");
+            $('#msgModal .hdCompetitionId').val(competition_id);
+
+            console.log("Consultando info a editar del concurso: "+competition_id)
             competitionService.getCompetition(competition_id).then(function (response) {
-                $scope.newCompetition.pk = $routeParams.competition_id;
+                console.log("Consultando info a editar del concurso -> "+ competition_id +
+                    " y esto es lo que me esta devolviendo el REST: "+response.data)
+                $scope.newCompetition.pk = competition_id;//$routeParams.competition_id;
+
                 $('#msgModal #name').val(response.data[0].fields.name);
                 $('#msgModal #url').val(response.data[0].fields.url);
                 //$('#msgModal #image').val(response.data[0].fields.image);
@@ -46,18 +74,42 @@
             }, responseError);
         };
 
+        /*
+        * Para Crear y Editar la info de los concursos desde la ventana modal.
+        * no se separaron por que en el modal solo permite tener una sola funcion y dinamicamente no se dejo cambiar.
+        * */
+        this.add_edit_competition = function () {
+            estado_formulario = $('#msgModal .hdEstadoForm').val();
+            enlace = '/competition/'
+            metodo = 'POST'
+            competition_id = $('#msgModal .hdCompetitionId').val();
+            if(estado_formulario == "editando"){
+                enlace = '/competition/edit/'
+            }
+            console.log('Entro a crear/editar concurso:'+competition_id+
+                '-Estado:'+estado_formulario+'-Metodo:'+metodo)
 
-        this.addCompetition = function () {
             var fd = getCompetitionUpload();
-            enlace = "/competition/",
+
+            console.log('Se inicia el llamado al servicio  que guarda info del concurso:')
+
+            if(estado_formulario == "editando"){
+                return competitionService.updateCompetition($scope.newCompetition, competition_id, fd).then(function (response) {
+                    $('#msgModal .close').attr("onclick", "window.location.assign('#/competitions/admin');window.location.reload(true)");
+                    $('#msgModal .modal-title').html("Edición Exitosa!")
+                    $('#msgModal .modal-body').html("Puede continuar con la gestión de los concursos.")
+
+                }, responseError);
+
+
+            }else{
                 $http.post(enlace, fd, {
-                    method:'POST',
+                    method: metodo,
                     headers: {'Content-Type': undefined},
                     transformRequest: angular.identity
                 }).success(function (data, status) {
                      if(data.message=='OK') {
                          $('#msgModal .close').attr("onclick", "window.location.assign('#/competitions/admin');window.location.reload(true)");
-
                          $('#msgModal .modal-title').html("Registro Exitoso!")
                          $('#msgModal .modal-body').html("Ya puedes compartir el concurso con su público objetivo.")
 
@@ -79,14 +131,10 @@
                     console.log(status)
 
                 });
-        };
 
-        this.updateCompetition = function () {
-            return competitionService.updateCompetition($scope.newCompetition, $routeParams.competition_id).then(function (response) {
-                $location.path("/competitions/admin");
-            }, responseError);
-        };
+            }
 
+        };
 
         this.deleteCompetition = function (competition_id) {
             return competitionService.deleteCompetition(competition_id).then(function (response) {
@@ -116,6 +164,8 @@
             fd.append("image", $("#image")[0].files[0])
             return fd;
         }
+
+        //Se ejecuta despues de eliminar un registro.
         $scope.showCompetitions= function () {
             return competitionService.getCompetitions().then(function (response) {
                 $scope.competitions = response.data;
@@ -127,6 +177,7 @@
             $scope.details = {};
 
         };
+
     }]);
 
 })(window.angular);

@@ -97,3 +97,7 @@ workspace.xml
 *.iml
 web/__pycache__/business_logic.cpython-35.pyc
 
+
+.DS_Store
+
+*.pyc

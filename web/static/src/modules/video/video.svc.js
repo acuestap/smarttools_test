@@ -3,12 +3,12 @@
 
     mod.service('videoService', ['$http', 'videoContext', function ($http, context) {
 
-        this.getVideos = function () {
+        this.getVideos = function (competitionName, competition_id) {
             return $http({
                 method: 'GET',
-                url: '/video'
+                url: '/videos/'+competitionName+'/'+competition_id,
             });
-        };
+        }
 
        /* this.addVideo = function (video, fd) {
             return $http.post("video/add/", fd, {

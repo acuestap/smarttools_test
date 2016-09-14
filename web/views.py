@@ -1,7 +1,7 @@
 import datetime
 from celery import chain
 from .tasks import *
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import logout
@@ -9,7 +9,8 @@ from .serializers import VideoSerializer
 from django.shortcuts import render
 from rest_framework.authtoken import serializers
 
-from web.business_logic import login_request_from_model, tareas, get_videos_from_model, validateConvert
+
+from web.business_logic import login_request_from_model
 
 # Create your views here.
 from web.models import Competition, Video
@@ -68,37 +69,4 @@ def logout_user(request):
     logout(request)
     print("Cerrando sesión....")
     return JsonResponse({'logout': True})
-
-
-'''
-    Add video to competition
-'''
-
-
-@csrf_exempt
-def add_video(request):
-    if request.method == 'POST':
-        print("Llego al servicio")
-        print(request)
-        new_video = Video(
-            name=request.POST.get('name'),
-            state='En proceso',
-            user_email=request.POST.get('user_email'),
-            message=request.POST.get('message'),
-            original_video=request.FILES['original_video'],
-            uploadDate=datetime.datetime.now(),
-            competition=Competition.objects.filter(id=1).get()
-        )
-        new_video.save()
-
-        # data for video convert
-        validateConvert()
-
-    return JsonResponse({'ok': 'video guardado'}, status=200)
-
-
-class VideosListView(ListAPIView):
-    serializer_class = VideoSerializer
-    queryset = Video.objects.all()
-
 

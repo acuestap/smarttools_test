@@ -17,13 +17,15 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.views import login, logout_then_login
 
-from web.views import index
-
+from competitions.views import getUrlCompetition
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('web.urls')),
     url(r'^client/', include('clients.urls')),
     url(r'^competition/', include('competitions.urls')),
+    url(r'^videos/', include('videos.urls')),
+    url(r'^(\w+)/(\d+)$', getUrlCompetition, name="url_competition"),
+    #url(r'^videos/', include('videos.urls')),
     #url(r'^$', login, {'template_name': 'inicio.html'}, name='login1'),
     #url(r'^accounts/login/', login, {'template_name': 'inicio.html'}, name='login'),
     #url(r'^accounts/login/', index, name='inicio2'),

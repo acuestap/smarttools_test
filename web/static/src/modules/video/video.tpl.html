@@ -1,14 +1,21 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron">
+<div class="jumbotron" ng-controller="competitionCtrl as ctrl3" ng-init="ctrl3.getCompetitionById()">
     <div class="container">
-        <h1>Nombre del Concurso</h1>
-        <p>Descripción del concurso</p>
+        <h3>{{ name_competition }}</h3>
+        <p><img src="{{ banner_competition }}" border="0"/></p>
+        <input type="hidden" id="hdIdCompetition" name="hdIdCompetition" value="{{ id_competition }}">
+        <p>{{ description_competition }}</p>
         <div class="row">
             <div class="col-md-4">
             </div>
-            <div class="col-md-4">
-                <p><a class="btn btn-primary btn-lg" role="button" href="#/video" data-toggle="modal"
-                      data-target="#msgModal"><span>Subir video y participar</span></a></p>
+            <div class="col-lg-4" ng-controller="webCtrl as ctrl4" ng-init="ctrl4.isLogged()">
+                <p>
+                    <a ng-if="message.logged" href="#/competitions">
+                        <button type="button" class="btn btn-default">Regresar</button>
+                    </a>
+                    <a class="btn btn-primary btn-subir-video" role="button" href="#/{{ url_competition }}/{{ id_competition }}"
+                       data-toggle="modal" data-target="#msgModal"><span>Subir video y participar</span></a>
+                </p>
             </div>
             <div class="col-md-4">
             </div>
@@ -16,9 +23,61 @@
     </div>
 </div>
 
+
 <div class="container" ng-controller="videoCtrl as ctrl" ng-init="ctrl.getVideos()">
-    <div class="row3" ng-repeat="record in videos">
-        algo...
+    <div class="row3 float-left" style="margin: 10px 0px;">
+        <div>
+            <div class="input-group">
+                <input type="text" class="form-control" ng-pagination-search="listavideos">
+                <span class="input-group-btn">
+                    <button class="btn btn-success" type="button"><i class="fa fa-search"> Buscar</i></button
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row3" ng-pagination="record in listavideos" ng-pagination-size="3">
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <label class="glyphicon glyphicon-facetime-video gly"></label>
+                <div class="caption">
+                    <p ng-hide="record.state">
+                        <video width="320" height="240" controls="true">
+                            <source src="{{ record.original_video }}" type="video/mp4">
+                        </video>
+                    </p>
+                    <p ng-if="record.state">
+                        <video width="320" height="240" controls="true">
+                            <source src="{{ record.converted_video }}" type="video/mp4">
+                        </video>
+                    </p>
+                    <!--
+                    <div id="myElement"></div>
+                    <script type="text/JavaScript">
+                        var playerInstance = jwplayer("myElement");
+                        playerInstance.setup({
+                            file: ""
+                        });
+                    </script>
+                    -->
+                    <h3>{{ record.name }} {{ record.surname }}</h3>
+                    <p><strong>Mensaje:</strong> {{ record.message }}</p>
+                    <p><strong>Correo:</strong> {{ record.user_email }}</p>
+                    <p><strong>Fecha:</strong> {{ record.uploadDate }}</p>
+                    <p><strong>Estado Actual:</strong>
+                        <span ng-hide="record.state" class="animate-if">
+                En proceso</span>
+                        <span ng-if="record.state" class="animate-if">
+                Convertido</span>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row3" style="width:500px;">
+        <ng-pagination-control pagination-id="listavideos" class="form-control"></ng-pagination-control>
     </div>
 </div>
 <!-- /container -->
@@ -45,11 +104,22 @@
                         </div>
                         <h3 class="control-label" for="video">Información del video y usted</h3>
                         <form id="formVideo" method="post" enctype="multipart/form-data" name="formVideo">
+
+                            <input type="hidden" class="competition_id" id="competition_id" name="competition_id"
+                                   ng-model="newVideo.competition_id">
+                            <input type="hidden" class="competition_url" id="competition_url" name="competition_url"
+                                   ng-model="newVideo.competition_url">
                             <div class="form-group">
                                 <label class="control-label" for="name">Nombre:</label>
                                 <input type="text" id="name" name="name" class="form-control" ng-model="newVideo.name"
                                        ng-required="true">
                             </div>
+                            <div class="form-group">
+                                <label class="control-label" for="surname">Apellidos:</label>
+                                <input type="text" id="surname" name="surname" class="form-control"
+                                       ng-model="newVideo.surname" ng-required="true">
+                            </div>
+
                             <div class="form-group">
                                 <label class="control-label" for="user_email">Su email:</label>
                                 <input type="text" id="user_email" name="user_email" class="form-control"
@@ -57,8 +127,8 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label" for="message">Su mensaje:</label>
-                                <input type="text" id="message" name="message" class="form-control"
-                                       ng-model="newVideo.message" ng-required="true">
+                                <textarea id="message" name="message" class="form-control"
+                                          rows="5" cols="50" ng-model="newVideo.message" ng-required="true"></textarea>
                             </div>
                             <div class="form-group">
                                 <label class="control-label" for="original_video">Video:</label>
@@ -68,7 +138,9 @@
                             <button type="submit" ng-disabled="formVideo.$invalid" class="btn btn-primary"
                                     ng-click="ctrl2.addVideo()">Enviar
                             </button>
-                            <a href="#/video" class="btn btn-default">Volver</a>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Volver
+                            </button>
+
                         </form>
                     </div>
                 </div>

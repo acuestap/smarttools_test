@@ -5,7 +5,8 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.manage_competition),
-    url(r'^(?P<competition_id>\d+)/$', views.get_competition),
+    url(r'^(\d+)/$', views.get_competition),
+    url(r'^edit/$', views.update_competition),
     #url(r'^add/', views.add_competition, name='add_competition'),
     #url(r'^competition/create/', login_required(views.create_competition), name='createCompetition'),
     #url(r'^crud/competition/?$', CompetitionCrudView.as_view(), name='crud_competition'),
